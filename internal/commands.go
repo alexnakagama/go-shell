@@ -1,8 +1,18 @@
 package internal
 
-// models package contains the data structures used in the shell application
+import (
+	"os"
+	"os/exec"
+)
 
 type Command struct {
 	Name string
 	Args []string
+}
+
+func (c Command) Run(name string, args ...string) error {
+	cmd := exec.Command(name, args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
