@@ -1,28 +1,33 @@
 package internal
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 )
 
 func ExecuteExit(args []string) {
 	if len(args) > 0 {
-		if code, err := strconv.Atoi(args[0]); err != nil {
+		if code, err := strconv.Atoi(args[0]); err == nil {
 			os.Exit(code)
 		}
 	}
 	os.Exit(0)
 }
 
-func ExecuteCd(args []string) {
+func ExecuteCd(args []string) error {
+	var dir string
 	if len(args) == 0 {
-		home, err := os.UserHomeDir()
+		var err error
+		dir, err = os.UserHomeDir()
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-		os.Chdir(home)
-		return
+	} else {
+		dir = args[0]
 	}
-	os.Chdir(args[0])
+
+	if err := os.Chdir(dir); err != nil {
+		return err
+	}
+	return nil
 }
