@@ -1,8 +1,10 @@
 package internal
 
 import (
+	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func ExecuteExit(args []string) {
@@ -29,5 +31,10 @@ func ExecuteCd(args []string) error {
 	if err := os.Chdir(dir); err != nil {
 		return err
 	}
+	return nil
+}
+
+func ExecuteEcho(args []string) error {
+	fmt.Println(strings.Join(args, " "))
 	return nil
 }
