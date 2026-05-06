@@ -7,6 +7,24 @@ import (
 	"strings"
 )
 
+var builtins = map[string]func([]string) error{
+	"exit": func(args []string) error {
+		ExecuteExit(args)
+		return nil
+	},
+	"cd":   ExecuteCd,
+	"echo": ExecuteEcho,
+}
+
+func IsBuiltin(name string) bool {
+	_, ok := builtins[name]
+	return ok
+}
+
+func ExecuteBuiltin(name string, args []string) error {
+	return builtins[name](args)
+}
+
 func ExecuteExit(args []string) {
 	if len(args) > 0 {
 		if code, err := strconv.Atoi(args[0]); err == nil {
