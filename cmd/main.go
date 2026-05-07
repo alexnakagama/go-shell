@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/alexnakagama/go-shell/internal"
 
 func main() {
-	fmt.Println("Hello world!")
+	internal.StartShell()
 }
