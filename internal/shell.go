@@ -64,7 +64,7 @@ func (s *Shell) StartShell() {
 
 		cmd := ParseInput(input)
 
-		if err := ExecuteCommand(cmd); err != nil {
+		if err := ExecuteCommand(s, cmd); err != nil {
 			fmt.Println("Error executing command:", err)
 		}
 
