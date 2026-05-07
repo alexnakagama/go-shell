@@ -17,6 +17,7 @@ func DefaultBuiltins() map[string]func(*Shell, []string) error {
 		"read":    ExecuteRead,
 		"help":    (*Shell).ExecuteHelp,
 		"source":  (*Shell).ExecuteSource,
+		"export":  ExecuteExport,
 	}
 }
 
@@ -115,6 +116,22 @@ func (s *Shell) ExecuteSource(args []string) error {
 				fmt.Printf("Error executing command from source: %v\n", err)
 			}
 		}
+	}
+	return nil
+}
+
+func ExecuteExport(s *Shell, args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("export: missing variable assignment")
+	}
+	for _, arg := range args {
+		parts := strings.SplitN(arg, "=", 2)
+		if len(parts) != 2 {
+			return fmt.Errorf("export: invalid variable assignment: %s", arg)
+		}
+		name := parts[0]
+		value := parts[1]
+		os.Setenv(name, value)
 	}
 	return nil
 }
