@@ -7,23 +7,26 @@ import (
 	"strings"
 )
 
-var builtins = map[string]func(*Shell, []string) error{
-	"exit":    ExecuteExit,
-	"cd":      ExecuteCd,
-	"echo":    ExecuteEcho,
-	"pwd":     ExecutePwd,
-	"history": (*Shell).ExecuteHistory,
-	"read":    ExecuteRead,
-	"help":    (*Shell).ExecuteHelp,
-}
-
-func IsBuiltin(name string) bool {
-	_, ok := builtins[name]
-	return ok
+func DefaultBuiltins() map[string]func(*Shell, []string) error {
+	return map[string]func(*Shell, []string) error{
+		"exit":    ExecuteExit,
+		"cd":      ExecuteCd,
+		"echo":    ExecuteEcho,
+		"pwd":     ExecutePwd,
+		"history": (*Shell).ExecuteHistory,
+		"read":    ExecuteRead,
+		"help":    (*Shell).ExecuteHelp,
+		"source":  (*Shell).ExecuteSource,
+	}
 }
 
 func ExecuteBuiltin(s *Shell, name string, args []string) error {
-	return builtins[name](s, args)
+	return s.Builtins[name](s, args)
+}
+
+func (s *Shell) IsBuiltin(name string) bool {
+	_, ok := s.Builtins[name]
+	return ok
 }
 
 func ExecuteExit(s *Shell, args []string) error {
@@ -91,6 +94,27 @@ func (s *Shell) ExecuteHelp(args []string) error {
 	fmt.Println("Available built-in commands:")
 	for name := range s.Builtins {
 		fmt.Printf("  %s\n", name)
+	}
+	return nil
+}
+
+func (s *Shell) ExecuteSource(args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("source: missing file name")
+	}
+	filename := args[0]
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+	lines := strings.Split(string(content), "\n")
+	for _, line := range lines {
+		cmd := ParseInput(line)
+		if cmd.Name != "" {
+			if err := ExecuteCommand(s, cmd); err != nil {
+				fmt.Printf("Error executing command from source: %v\n", err)
+			}
+		}
 	}
 	return nil
 }

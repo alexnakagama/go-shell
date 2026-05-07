@@ -26,7 +26,7 @@ func NewDefaultShell(defaultConfig ShellConfig) *Shell {
 		Prompt:   "> ",
 		Config:   defaultConfig,
 		History:  []string{},
-		Builtins: builtins,
+		Builtins: DefaultBuiltins(),
 	}
 }
 

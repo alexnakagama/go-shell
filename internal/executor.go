@@ -6,7 +6,7 @@ import "fmt"
 // running external programs using os/exec package
 
 func ExecuteCommand(s *Shell, cmd Command) error {
-	if IsBuiltin(cmd.Name) {
+	if s.IsBuiltin(cmd.Name) {
 		if err := ExecuteBuiltin(s, cmd.Name, cmd.Args); err != nil {
 			return fmt.Errorf("builtin error: %w", err)
 		}
