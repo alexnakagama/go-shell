@@ -15,16 +15,18 @@ type ShellConfig struct {
 }
 
 type Shell struct {
-	Prompt  string
-	Config  ShellConfig
-	History []string
+	Prompt   string
+	Config   ShellConfig
+	History  []string
+	Builtins map[string]func(*Shell, []string) error
 }
 
 func NewDefaultShell(defaultConfig ShellConfig) *Shell {
 	return &Shell{
-		Prompt:  "> ",
-		Config:  defaultConfig,
-		History: []string{},
+		Prompt:   "> ",
+		Config:   defaultConfig,
+		History:  []string{},
+		Builtins: builtins,
 	}
 }
 

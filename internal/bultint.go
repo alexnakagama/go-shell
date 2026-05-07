@@ -14,6 +14,7 @@ var builtins = map[string]func(*Shell, []string) error{
 	"pwd":     ExecutePwd,
 	"history": (*Shell).ExecuteHistory,
 	"read":    ExecuteRead,
+	"help":    (*Shell).ExecuteHelp,
 }
 
 func IsBuiltin(name string) bool {
@@ -83,5 +84,13 @@ func ExecuteRead(s *Shell, args []string) error {
 	var input string
 	fmt.Scanln(&input)
 	os.Setenv(varName, input)
+	return nil
+}
+
+func (s *Shell) ExecuteHelp(args []string) error {
+	fmt.Println("Available built-in commands:")
+	for name := range s.Builtins {
+		fmt.Printf("  %s\n", name)
+	}
 	return nil
 }
