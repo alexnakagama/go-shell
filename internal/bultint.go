@@ -14,6 +14,7 @@ var builtins = map[string]func([]string) error{
 	},
 	"cd":   ExecuteCd,
 	"echo": ExecuteEcho,
+	"pwd":  ExecutePwd,
 }
 
 func IsBuiltin(name string) bool {
@@ -54,5 +55,14 @@ func ExecuteCd(args []string) error {
 
 func ExecuteEcho(args []string) error {
 	fmt.Println(strings.Join(args, " "))
+	return nil
+}
+
+func ExecutePwd(args []string) error {
+	dir, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	fmt.Println(dir)
 	return nil
 }
