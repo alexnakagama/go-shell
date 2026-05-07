@@ -1,6 +1,8 @@
 package main
 
-import "github.com/alexnakagama/go-shell/internal"
+import (
+	"github.com/alexnakagama/go-shell/internal"
+)
 
 func main() {
 	config := internal.NewDefaultConfig()
