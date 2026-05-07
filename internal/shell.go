@@ -20,19 +20,27 @@ type Shell struct {
 	History []string
 }
 
-func NewDefaultShell(config ShellConfig) *Shell {
+func NewDefaultShell(defaultConfig ShellConfig) *Shell {
 	return &Shell{
 		Prompt:  "> ",
-		Config:  config,
+		Config:  defaultConfig,
 		History: []string{},
 	}
 }
 
-func NewConfig() ShellConfig {
+func NewDefaultConfig() ShellConfig {
 	return ShellConfig{
-		MaxHistory:     100,
+		MaxHistory:     50,
 		EnableColors:   true,
 		WelcomeMessage: "Welcome to Go Shell!",
+	}
+}
+
+func NewCustomConfig(maxHistory int, enableColors bool, welcomeMessage string) ShellConfig {
+	return ShellConfig{
+		MaxHistory:     maxHistory,
+		EnableColors:   enableColors,
+		WelcomeMessage: welcomeMessage,
 	}
 }
 
