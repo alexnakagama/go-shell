@@ -13,6 +13,7 @@ var builtins = map[string]func(*Shell, []string) error{
 	"echo":    ExecuteEcho,
 	"pwd":     ExecutePwd,
 	"history": (*Shell).ExecuteHistory,
+	"read":    ExecuteRead,
 }
 
 func IsBuiltin(name string) bool {
@@ -70,5 +71,17 @@ func (s *Shell) ExecuteHistory(args []string) error {
 	for _, cmd := range s.History {
 		fmt.Printf("%s\n", cmd)
 	}
+	return nil
+}
+
+func ExecuteRead(s *Shell, args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("read: missing variable name")
+	}
+	varName := args[0]
+	fmt.Print("> ")
+	var input string
+	fmt.Scanln(&input)
+	os.Setenv(varName, input)
 	return nil
 }

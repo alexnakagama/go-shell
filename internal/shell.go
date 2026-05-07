@@ -31,7 +31,7 @@ func NewDefaultShell(defaultConfig ShellConfig) *Shell {
 func NewDefaultConfig() ShellConfig {
 	return ShellConfig{
 		MaxHistory:     50,
-		EnableColors:   true,
+		EnableColors:   false,
 		WelcomeMessage: "Welcome to Go Shell!",
 	}
 }
