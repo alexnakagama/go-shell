@@ -3,5 +3,7 @@ package main
 import "github.com/alexnakagama/go-shell/internal"
 
 func main() {
-	internal.StartShell()
+	config := internal.NewConfig()
+	shell := internal.NewDefaultShell(config)
+	shell.StartShell()
 }

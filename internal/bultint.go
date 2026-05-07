@@ -66,3 +66,9 @@ func ExecutePwd(args []string) error {
 	fmt.Println(dir)
 	return nil
 }
+
+func ExecuteHistory(args []string) error {
+	// Placeholder for history command implementation
+	fmt.Println("History command not implemented yet.")
+	return nil
+}
