@@ -59,6 +59,3 @@ Run all tests:
 ```sh
 go test ./...
 ```
-
-## License
-MIT
